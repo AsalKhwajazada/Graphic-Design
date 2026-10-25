@@ -1,23 +1,25 @@
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
+import NavigationIcon from "./NavigationIcon";
 
 const items = [
-  { to: "/", icon: "chart-pie", label: "Dashboard" },
-  { to: "/classes", icon: "palette", label: "Design Classes" },
-  { to: "/instructors", icon: "user-tie", label: "Find Instructor" },
-  { to: "/academies", icon: "graduation-cap", label: "Find Academy" },
-  { to: "/chat", icon: "comments", label: "Student Chat" },
-  { to: "/market", icon: "store", label: "Asset Marketplace" },
-  { to: "/portfolio", icon: "images", label: "Design Portfolio" },
-  { to: "/assignments", icon: "folder-open", label: "My Assignments" },
-  { to: "/profile", icon: "id-card", label: "My Profile" },
-  { to: "/preferences", icon: "sliders", label: "Preferences" },
+  { to: "/", icon: "dashboard", label: "Dashboard" },
+  { to: "/classes", icon: "classes", label: "Design Classes" },
+  { to: "/instructors", icon: "instructors", label: "Find Instructor" },
+  { to: "/academies", icon: "academies", label: "Find Academy" },
+  { to: "/chat", icon: "chat", label: "Student Chat" },
+  { to: "/market", icon: "market", label: "Asset Marketplace" },
+  { to: "/portfolio", icon: "portfolio", label: "Design Portfolio" },
+  { to: "/assignments", icon: "assignments", label: "My Assignments" },
+  { to: "/profile", icon: "profile", label: "My Profile" },
+  { to: "/preferences", icon: "preferences", label: "Preferences" },
+  { to: "/settings", icon: "settings", label: "Settings" },
 ];
 
 export default function Sidebar({ collapsed }) {
   return (
     <aside className={`sidebar ${collapsed ? "collapsed" : ""}`}>
       <div className="sidebar-brand">
-        <div className="logo-box">
+        <div className="logo-box" aria-hidden="true">
           <svg viewBox="0 0 24 24" width="24" height="24">
             <path
               fill="white"
@@ -28,22 +30,39 @@ export default function Sidebar({ collapsed }) {
         <span>GraphicDesignHUB</span>
       </div>
 
-      <nav className="sidebar-menu">
+      <nav className="sidebar-menu" id="primary-navigation" aria-label="Primary navigation">
         {items.map(({ to, icon, label }) => (
           <NavLink
             key={label}
             to={to}
             end={to === "/"}
+            aria-label={label}
+            title={label}
             className={({ isActive }) => `menu-item ${isActive ? "active" : ""}`}
           >
-            <i className={`fa-solid fa-${icon}`} /> <span>{label}</span>
+            <NavigationIcon name={icon} className="menu-icon" /> <span>{label}</span>
           </NavLink>
         ))}
       </nav>
 
-      <div className="sidebar-help-box">
-        <button className="help-large-btn">?</button>
-      </div>
+      <section className="sidebar-app-promo" aria-label="GraphicDesignHUB mobile app">
+        <Link className="app-promo-help" to="/chat" aria-label="Get help in Student Chat" title="Get help in Student Chat">
+          <NavigationIcon name="help" size={22} />
+        </Link>
+        <div className="app-promo-copy">
+          <h2>Download</h2>
+          <p>GraphicDesignHUB Mobile App</p>
+        </div>
+        <div className="app-store-buttons">
+          <button type="button" disabled aria-label="iOS app coming soon" title="iOS app coming soon">
+            <NavigationIcon name="apple" size={18} />
+          </button>
+          <button type="button" disabled aria-label="Android app coming soon" title="Android app coming soon">
+            <NavigationIcon name="android" size={18} />
+          </button>
+        </div>
+      </section>
+
     </aside>
   );
 }
